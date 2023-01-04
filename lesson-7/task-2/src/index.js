@@ -1,18 +1,23 @@
-import { initHandlers } from './handlers.js';
-import { renderTasks } from './render.js';
-import { setItem } from './storage.js';
-import { getTasksList } from './tasksGateway.js';
+import { initHandlers } from './list/handlers.js';
+import { renderTasks } from './list/render.js';
+import { setItem } from './list/storage.js';
+import { getTasksList } from './list/tasksGateway.js';
+import './index.scss';
+
 document.addEventListener('DOMContentLoaded', () => {
-  getTasksList().then(tasksList => {
+  getTasksList().then((tasksList) => {
     setItem('tasksList', tasksList);
     renderTasks();
   });
+
   initHandlers();
 });
-const onStorageChange = event => {
+
+const onStorageChange = (event) => {
   if (event.key !== 'tasksList') return;
   renderTasks();
 };
+
 window.addEventListener('storage', onStorageChange);
 
 //1. Get data from server
